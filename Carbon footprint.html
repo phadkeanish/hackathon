@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carbon Footprint Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Carbon Footprint Calculator</h1>
+
+    <h2>User Profile</h2>
+    <form id="profileForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Your Name">
+        <br>
+        <label for="age">Age:</label>
+        <input type="text" id="age" placeholder="Your Age">
+        <br>
+        <label for="location">Location:</label>
+        <input type="text" id="location" placeholder="Your Location">
+        <br>
+        <label for="goals">Sustainability Goals:</label>
+        <textarea id="goals" placeholder="Your Goals"></textarea>
+        <br>
+        <button type="submit">Save Profile</button>
+    </form>
+
+    <h2>Carbon Emission Calculator</h2>
+    <form id="emissionForm">
+        <label for="activity">Activity:</label>
+        <input type="text" id="activity" placeholder="Activity Name">
+        <br>
+        <label for="emissions">Emissions (kg CO2):</label>
+        <input type="number" id="emissions" placeholder="Emissions Amount">
+        <br>
+        <button type="submit">Add Activity</button>
+    </form>
+
+    <h2>Carbon Footprint Summary</h2>
+    <p>Total Carbon Emissions: <span id="totalEmissions">0 kg CO2</span></p>
+
+    <h2>Suggestions</h2>
+    <p id="suggestions">No suggestions yet.</p>
+
+    <h2>Carbon Emissions Over Time</h2>
+    <canvas id="emissionsChart" width="400" height="200"></canvas>
+
+    <script>
+        const profileForm = document.getElementById('profileForm');
+        const emissionForm = document.getElementById('emissionForm');
+        const totalEmissionsElement = document.getElementById('totalEmissions');
+        const suggestionsElement = document.getElementById('suggestions');
+        const emissionsChart = document.getElementById('emissionsChart').getContext('2d');
+        let totalEmissions = 0;
+        const emissionsData = [];
+        const emissionsLabels = [];
+
+        profileForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            // Save user profile data
+            const location = document.getElementById('location').value;
+            const goals = document.getElementById('goals').value;
+            // You can send this data to a server or store it locally
+        });
+
+        emissionForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const activity = document.getElementById('activity').value;
+            const emissions = parseFloat(document.getElementById('emissions').value);
+            totalEmissions += emissions;
+
+            // Update the UI
+            totalEmissionsElement.textContent = `${totalEmissions} kg CO2`;
+
+            // Simple suggestions based on total emissions
+            if (totalEmissions > 100) {
+                suggestionsElement.textContent = 'Consider reducing your car use and using public transport.';
+            } else {
+                suggestionsElement.textContent = 'Keep up the good work!';
+            }
+
+            // Update the chart data
+            emissionsData.push(emissions);
+            emissionsLabels.push(new Date().toLocaleTimeString());
+            updateEmissionsChart();
+        });
+
+        function updateEmissionsChart() {
+            const chart = new Chart(emissionsChart, {
+                type: 'line',
+                data: {
+                    labels: emissionsLabels,
+                    datasets: [{
+                        label: 'Emissions (kg CO2)',
+                        data: emissionsData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+        }
+    </script>
+</body>
+</html>
