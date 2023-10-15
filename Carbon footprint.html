@@ -123,10 +123,8 @@
 
         profileForm.addEventListener('submit', (event) => {
             event.preventDefault();
-            // Save user profile data
             const location = document.getElementById('location').value;
             const goals = document.getElementById('goals').value;
-            // You can send this data to a server or store it locally
         });
 
         emissionForm.addEventListener('submit', (event) => {
@@ -135,26 +133,26 @@
             const emissions = parseFloat(document.getElementById('emissions').value);
             totalEmissions += emissions;
 
-            // Update the UI
+            
             totalEmissionsElement.textContent = `${totalEmissions} kg CO2`;
 
-            // Simple suggestions based on total emissions
+            
             if (totalEmissions > 100) {
                 suggestionsElement.textContent = 'Consider reducing your car use and using public transport.';
             } else {
                 suggestionsElement.textContent = 'Keep up the good work!';
             }
 
-            // Update the chart data
+            
             emissionsData.push(emissions);
             emissionsLabels.push(new Date().toLocaleTimeString());
 
-            // Destroy the previous chart instance if it exists
+            
             if (chart) {
                 chart.destroy();
             }
 
-            // Create a new chart
+            
             chart = new Chart(emissionsChart, {
                 type: 'line',
                 data: {
