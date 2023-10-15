@@ -13,7 +13,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 200vh;
+            height: 250vh;
         }
         h1 {
             text-align: center;
@@ -64,7 +64,7 @@
         }
         .chart-container {
             width: 1000px;
-            height:600px
+            height: 600px;
         }
     </style>
 </head>
@@ -107,7 +107,8 @@
 
     <h2>Carbon Emissions Over Time</h2>
     <div class="chart-container">
-    <canvas id="emissionsChart" width="400" height="200"></canvas>
+        <canvas id="emissionsChart" width="400" height="200"></canvas>
+    </div>
 
     <script>
         const profileForm = document.getElementById('profileForm');
@@ -118,6 +119,7 @@
         let totalEmissions = 0;
         const emissionsData = [];
         const emissionsLabels = [];
+        let chart; // Variable to hold the chart instance
 
         profileForm.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -146,11 +148,14 @@
             // Update the chart data
             emissionsData.push(emissions);
             emissionsLabels.push(new Date().toLocaleTimeString());
-            updateEmissionsChart();
-        });
 
-        function updateEmissionsChart() {
-            const chart = new Chart(emissionsChart, {
+            // Destroy the previous chart instance if it exists
+            if (chart) {
+                chart.destroy();
+            }
+
+            // Create a new chart
+            chart = new Chart(emissionsChart, {
                 type: 'line',
                 data: {
                     labels: emissionsLabels,
@@ -167,8 +172,8 @@
                     maintainAspectRatio: false,
                 }
             });
-        }
+        });
     </script>
-    </dir>
 </body>
 </html>
+
